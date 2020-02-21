@@ -4,6 +4,7 @@ import random
 from datetime import datetime
 import os
 import termios, sys
+from colorama import Fore, Back, Style
 #import termios, TERMIOS, sys
 
 #____________________________________________________________________________________________________________________________________________
@@ -135,6 +136,7 @@ def GetWord():
 #____________________________________________________________________________________________________________________________________________
 
 def WinningMessage():
+    os.system('clear')
     Message = ["\nYou won \U0001F525","\nGG bro \U0001F44A, you have the win", "\n\U0001F387 Wow you have win \U0001F387", "You rocks men \U0001F919"]
     Length = len(Message) - 1
     random.seed(datetime.now())#define a seed
@@ -160,7 +162,7 @@ def Hangman(turns):
         # make a counter that starts with zero
         failed = 0           
 
-        print("Word to guess : ", end = "")
+        print("\U0001F4D6Word to guess : ", end = "")
         # for every character in secret_word    
         for char in word:      
         # see if the character is in the players guess
@@ -183,8 +185,14 @@ def Hangman(turns):
             break              
         print()
 
+        print("\n\n\n\U0001F6ABLetter already used : ", end = "")
+        for letter in LetterUsed :
+            print(letter, end = " ")
+        for dash in range (turns) :
+            print("_", end = " ")
+
         # ask the user go guess a character
-        guess = input("guess a character:") 
+        guess = input("\n\n\nGuess a character:") 
         #set to lowercase
         guess.lower()
         # set the players guess to guesses
@@ -198,9 +206,9 @@ def Hangman(turns):
         # turns counter decreases with 1 (now 9)
             turns -= 1        
         # print wrong
-            print("Wrong")    
+            print(Fore.RED +"Wrong")    
         # how many turns are left
-            print("You have", + turns, 'more guesses')
+            print("You have", + turns, 'more guesses' + Style.RESET_ALL)
         # Add the last enter in the letter use
             LetterUsed.append(guess)       
         # if the turns are equal to zero
@@ -215,6 +223,7 @@ def Hangman(turns):
    
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
+os.system('clear')
 #set the path for the different language 
 languageWord = {"English" : "list_english.txt", "French" : "liste_francais.txt", "German" : "list_deutsch.txt", "Spanish" : "list_espanol.txt", "Dutch" : "list_nederlands.txt"}
 #define the actual language
@@ -250,7 +259,6 @@ while(NewGame == 1) :
     win += score#update the score
     try :
         NewGame = int(input("Press [1] for a new game \n"))#ask for a new game
-    except ValueError:
+    except :
         break
 print("You have", + win , "win \U0001F396 in", + game , "games")#print the score
-
